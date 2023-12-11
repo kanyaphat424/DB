@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:carecare/AdminPage.dart';
 import 'package:carecare/ae/canclecomplete.dart';
+import 'package:carecare/ae/adcustomer.dart';
 import 'package:carecare/mind/customerid.dart';
 import 'package:carecare/model/controlmo.dart';
 import 'package:carecare/model/token.dart';
@@ -18,6 +19,7 @@ class controlpage extends StatefulWidget {
 class _controlpageState extends State<controlpage> {
 
   List<Ffmo> filteredLists = [];
+  Ffmo selectedItem = Ffmo(accountId: "", name: "");
 
   Future<void> _postData() async {
     MyGlobalData globalData = MyGlobalData();
@@ -81,6 +83,7 @@ void filterList(String text) {
     filterList('');
   }
 
+  int selectedItemIndex = -1;
   // void filterList(String text) {
   //   setState(() {
   //     filteredLists = filteredLists
@@ -146,7 +149,7 @@ void filterList(String text) {
           Expanded(
             child: ListView.builder(
               itemCount: filteredLists.length,
-              itemBuilder: (context, i) {
+              itemBuilder: (context, int index) {
                 return SizedBox(
                   width: 40,
                   height: 70,
@@ -155,26 +158,40 @@ void filterList(String text) {
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: ListTile(
-                        leading: Text(filteredLists[i].accountId),
+                        leading: Text(filteredLists[index].accountId),
                         title: InkWell(
                            onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                setState(() {
+                  selectedItemIndex = index;
+                  selectedItem = filteredLists[index];
+                });
+                // Navigate to customerdetail page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => customerdetail(someValue: index),
+                  ),);
+                // Navigator.push(context, MaterialPageRoute(builder: (context) {
                   
                   
-                  return customerdetail();
-                }));
+                //   return customerdetail();
+                // }));
                 // toggleReservationContentVisibility();
               },
                           child: Row(
                             children: [
                               Icon(Icons.person),
                               SizedBox(width: 8),
-                              Text(filteredLists[i].name),
+                              Text(filteredLists[index].name),
                             ],
                           ),
                         ),
                         trailing: InkWell(
                           onTap: () {
+                             Navigator.push(context,
+                        MaterialPageRoute(
+                          builder: (context) => customeraddetails(someValue: index),
+                    ));
                             // Handle the onTap event here
                           },
                           child: Icon(Icons.delete),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:carecare/CategoryCard.dart';
 import 'package:carecare/Users/gade/Desktop/carecare/carecare/lib/address.dart';
 import 'package:carecare/ae/reservation.dart';
+import 'package:carecare/ae/reservationagain.dart';
 import 'package:carecare/mind/loginscreen.dart';
 import 'package:carecare/mind/profilepage.dart';
 import 'package:carecare/model/token.dart';
@@ -191,7 +192,7 @@ class _MainHomePageState extends State<MainHomePage> {
               } else if (index == 1) {
                 // Navigate to the Confirm page
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Reservation();
+                  return Reservation(globalData.token);
                 }));
               } else if (index == 2) {
                 // Navigate to the NextPage
@@ -238,7 +239,7 @@ class NavigationDrawer extends StatelessWidget {
                 size: 35,
               ),
               title: const Text(
-                'Home',
+                'หน้าหลัก',
                 style: TextStyle(fontSize: 20, color: Colors.black),
               ),
               //เชื่อมปุ่มhomeไปหน้าhome
@@ -260,7 +261,7 @@ class NavigationDrawer extends StatelessWidget {
                 size: 35,
               ),
               title: const Text(
-                'ข้อมูลส่วนตัว',
+                'บัญชี',
                 style: TextStyle(fontSize: 20, color: Colors.black),
               ),
               onTap: () {
@@ -501,7 +502,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                 children: [
                   Text(
                     "เลือกวันที่จอง",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
                   Row(
@@ -641,11 +642,13 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
               );
             }).toList(),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 5),
+          
           Align(
             alignment: Alignment.centerLeft,
             child: FractionalTranslation(
               translation: Offset(0.5, 0.0),
+              
               child: Text(
                 "สถานที่",
                 style: TextStyle(
@@ -656,23 +659,53 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
               ),
             ),
           ),
-          Row(
-            children: [
-              SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black)),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            Text(
-                             welcome.address,
-                             style: TextStyle(fontSize: 18,color: Colors.black),
-                              // decoration: InputDecoration(
+          SizedBox(height: 10.0),
+       Row(
+  children: [
+    SizedBox(width: 20),
+    Expanded(
+      child: Row(
+        children: [
+         Expanded(
+  child: Row(
+    children: [
+      Expanded(
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            Text(
+              welcome.address,
+              style: TextStyle(fontSize: 18, color: Colors.black),
+            ),
+            Positioned(
+              left: 30,
+              top: 0,
+              bottom: 30,
+              child: Icon(Icons.location_on),
+            ),
+            Positioned(
+              left: 60, // Adjust the left position as needed
+              top: 0,
+              bottom: 30,
+              child: Text(
+                "Additional Text", // Your additional text here
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  ),
+),
+
+        ],
+      ),
+    ),
+  ],
+),
+
+          // decoration: InputDecoration(
                               //   hintText: "กรอกข้อมูลที่อยู่",
                               //   contentPadding: EdgeInsets.symmetric(
                               //       vertical: 10, horizontal: 50),
@@ -683,22 +716,6 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                               //     selectedaddress = value;
                               //   });
                               // },
-                            ),
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              bottom: 0,
-                              child: Icon(Icons.location_on),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
           SizedBox(height: 12),
           Column(
             children: _buildServiceRadioButtons(widget.image),
@@ -800,7 +817,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
             MaterialPageRoute(
               builder: (context) => NextPage(
                 timeSlot: timeSlot ?? '',
-                address: selectedaddress ?? widget.address ?? '',
+                address: selectedaddress ?? welcome.address ?? '',
                 selectedService:
                     selectedService ?? widget.selectedService ?? '',
                 bookingDate: bookingDate,
@@ -814,20 +831,31 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
             ),
           );
         },
-        child: Container(
-          padding: EdgeInsets.all(12.0),
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(23.0),
-          ),
-          child: Text(
-            "ถัดไป",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-            ),
-          ),
+         splashColor: Colors.transparent, 
+       child: Container(
+   width: 75.0, // Set width to occupy the entire available space
+  padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 6.0),
+  decoration: BoxDecoration(
+    color: Colors.blue,
+    borderRadius: BorderRadius.circular(10.0),
+     boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          spreadRadius: 2,
+          blurRadius: 3,
+          offset: Offset(0, 2), // changes the direction of the shadow
         ),
+      ],
+  ),
+  child: Text(
+    "ถัดไป",
+    style: TextStyle(
+      color: Colors.white,
+      fontSize: 18.0,
+    ),
+  ),
+),
+
       ),
     );
   }

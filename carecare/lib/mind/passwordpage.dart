@@ -14,8 +14,8 @@ class password extends StatefulWidget {
 }
 
 class _passwordState extends State<password> {
-  TextEditingController _passwordold = TextEditingController();
-  TextEditingController _passwordnew = TextEditingController();
+  TextEditingController _oldPassword = TextEditingController();
+  TextEditingController _newPassword= TextEditingController();
   
   //TextEditingController _passwordagain = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -27,28 +27,35 @@ class _passwordState extends State<password> {
   bool passwordObscured3 = true;
   
   var _formKey = GlobalKey<FormState>();
-
-  void _submitFunc() {
-    var isValid = _formKey.currentState?.validate();
-    if (isValid != null && isValid) {
-      _formKey.currentState?.save();
-      print(' oldPassword: $_passwordold,newPassword: $_passwordnew ');
-    }
+    @override
+  void dispose() {
+    _oldPassword.dispose();
+    _newPassword.dispose();
+    super.dispose();
   }
+
+
+  // void _submitFunc() {
+  //   var isValid = _formKey.currentState?.validate();
+  //   if (isValid != null && isValid) {
+  //     _formKey.currentState?.save();
+  //     print(' oldPassword: $_passwordold,newPassword: $_passwordnew ');
+  //   }
+  // }
 
   Future<void> _postData() async {
     
-      print(_passwordold.text);
-      print(_passwordnew.text);
-     // print(_passwordagain);
+      print(_oldPassword.text);
+      print(_newPassword.text);
+      print(_passwordagain);
 
       const String apiUrl =
           'http://172.20.10.3:8080/api/v1/member/reset-password';
       final response = await http.put(
         Uri.parse(apiUrl),
         body: jsonEncode({
-          'oldPassword': _passwordold.text,
-          'newPassword': _passwordnew.text,
+          'oldPassword': _oldPassword.text,
+          'newPassword': _newPassword.text,
           //'passwordagain': _passwordagain
         }),
         headers: {
@@ -73,13 +80,7 @@ class _passwordState extends State<password> {
     _postData();
     super.initState();
   }
-  // @override
-  // void dispose() {
-  //   _passwordold.dispose();
-  //   _passwordnew.dispose();
-  //   super.dispose();
-  // }
-
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -202,10 +203,10 @@ class _passwordState extends State<password> {
                         color: Colors.black),
                   ),
                   TextFormField(
-                    controller: _passwordold,
+                    controller: _oldPassword,
                     keyboardType: TextInputType.visiblePassword,
-                    key: ValueKey('passwordold'),
-                    obscureText: passwordObscured2,
+                    key: ValueKey('oldPassword'),
+                    obscureText: passwordObscured1,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.key,
@@ -213,10 +214,10 @@ class _passwordState extends State<password> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
-                              passwordObscured2 = !passwordObscured2;
+                              passwordObscured1= !passwordObscured1;
                             });
                           },
-                          icon: Icon(passwordObscured2
+                          icon: Icon(passwordObscured1
                               ? Icons.visibility_off
                               : Icons.visibility)),
                     ),
@@ -232,9 +233,9 @@ class _passwordState extends State<password> {
                         color: Colors.black),
                   ),
                   TextFormField(
-                    controller: _passwordnew,
+                    controller: _newPassword,
                     keyboardType: TextInputType.visiblePassword,
-                    key: ValueKey('passwordnew'),
+                    key: ValueKey('newPassword'),
                     obscureText: passwordObscured2,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
@@ -252,12 +253,12 @@ class _passwordState extends State<password> {
                     ),
                     onSaved: (newValue) {
                       if (newValue != null) {
-                        _passwordnew.text = newValue;
+                        _newPassword.text = newValue;
                       }
                     },
                     validator: (value) {
                       if (value != null) {
-                        _passwordnew.text = value;
+                        _newPassword.text = value;
                         value = value?.trim();
                         if (value!.isEmpty) {
                           return "โปรดใส่รหัสผ่านอันใหม่";
@@ -310,7 +311,7 @@ class _passwordState extends State<password> {
                       if (value!.length < 8) {
                         return "โปรดใส่รหัสผ่าน 8 ตัวอักษร";
                       }
-                      if (value != _passwordnew.text) {
+                      if (value != _newPassword.text) {
                         return 'รหัสผ่านไม่ถูกต้อง';
                       }
 

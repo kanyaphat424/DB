@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:carecare/ae/Listservice.dart';
 import 'package:carecare/ae/reservation.dart';
 import 'package:carecare/homescreen.dart';
 import 'package:carecare/model/booking.dart';
@@ -11,23 +12,23 @@ import 'package:provider/provider.dart';
 
 
 
-class canclereserve extends StatefulWidget {
+class canclereserved extends StatefulWidget {
   //late String token = "";
 
   //final String token;
 
   final int somev; // ตัวแปรที่จะใช้เก็บค่าที่รับมา
 
-  const canclereserve({Key? key, required this.somev}) : super(key: key);
+  const canclereserved({Key? key, required this.somev}) : super(key: key);
 
   // reserveagain({Key? key}) : super(key: key);
 
   @override
-  State<canclereserve> createState() => _canclereserveState();
+  State<canclereserved> createState() => _canclereservedState();
 }
 
 
-class _canclereserveState extends State<canclereserve> {
+class _canclereservedState extends State<canclereserved> {
   late String token;
   String file = ""; //กำหนดตัวแปร path here
 
@@ -206,7 +207,7 @@ Future<void> fetchData() async {
         leading: IconButton(
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return Reservation('token');
+              return Listservice();
             }));
           },
           icon: const Icon(
@@ -228,7 +229,7 @@ Future<void> fetchData() async {
                 Container(
                   height: 30, // ส่วนสูงของ Container ตรงกับ height ของ Divider
                   child: Divider(
-                    color: Colors.red.shade50,
+                    color: Colors.grey.shade200,
                     thickness: 5,
                   ),
                 ),
@@ -241,7 +242,7 @@ Future<void> fetchData() async {
                     height: 15,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.yellow, // สีของวงกลม
+                      color: Colors.grey.shade200, // สีของวงกลม
                     ),
                   ),
                 ),
@@ -254,7 +255,7 @@ Future<void> fetchData() async {
                     height: 15,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.red.shade50, // สีของวงกลม
+                      color: Colors.grey.shade200, // สีของวงกลม
                     ),
                   ),
                 ),
@@ -267,7 +268,7 @@ Future<void> fetchData() async {
                     height: 15,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.red.shade50, // สีของวงกลม
+                      color: Colors.grey.shade200, // สีของวงกลม
                     ),
                   ),
                 ),
@@ -517,7 +518,7 @@ Future<void> fetchData() async {
                 }));
               },
               child: Text(
-                "ยกเลิกการจอง",
+                "จองอีกครั้ง",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,

@@ -28,7 +28,7 @@ class reservecomplete extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              "ตอนนี้คุณสามมารถกลับไปที่หน้าการจองได้แล้ว",
+              "ตอนนี้คุณสามารถกลับไปที่หน้าการจองได้แล้ว",
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 18,

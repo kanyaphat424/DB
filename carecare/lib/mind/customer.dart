@@ -1,7 +1,6 @@
 import 'dart:convert';
 //import 'dart:ui';
 
-import 'package:carecare/ae/Listservice.dart';
 import 'package:carecare/homescreen.dart';
 import 'package:carecare/mind/editsignup.dart';
 import 'package:carecare/mind/passwordpage.dart';
@@ -10,19 +9,19 @@ import 'package:carecare/model/token.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class profilepage extends StatefulWidget {
+class customerpage extends StatefulWidget {
   String token = "";
 
-  profilepage(this.token, {Key? key}) : super(key: key);
+  customerpage(this.token, {Key? key}) : super(key: key);
 
   @override
-  State<profilepage> createState() => _profilepageState(token: token);
+  State<customerpage> createState() => _customerpageState(token: token);
 }
 
-class _profilepageState extends State<profilepage> {
+class _customerpageState extends State<customerpage> {
   String token;
 
-  _profilepageState({required this.token});
+  _customerpageState({required this.token});
 
   TextEditingController _name = TextEditingController();
   TextEditingController _address = TextEditingController();
@@ -453,27 +452,27 @@ class _profilepageState extends State<profilepage> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  margin: const EdgeInsets.only(left: 20, right: 20),
-                  width: w * 0.8,
-                  height: h * 0.06,
-                  child: ElevatedButton(
-                    child: Text("บันทึก",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
-                    onPressed: () {
-                      // ทำอะไรสักอย่างเมื่อกดปุ่ม "บันทึก"
-                      // เช่น เรียก _postData() เพื่ออัปเดตข้อมูล
-                      _postData();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return MainHomePage();
-                      }));
-                    },
-                  ),
-                ),
+                // Container(
+                //   margin: const EdgeInsets.only(left: 20, right: 20),
+                //   width: w * 0.8,
+                //   height: h * 0.06,
+                //   child: ElevatedButton(
+                //     child: Text("บันทึก",
+                //         style: TextStyle(
+                //           fontSize: 20,
+                //           fontWeight: FontWeight.bold,
+                //           color: Colors.white,
+                //         )),
+                //     onPressed: () {
+                //       // ทำอะไรสักอย่างเมื่อกดปุ่ม "บันทึก"
+                //       // เช่น เรียก _postData() เพื่ออัปเดตข้อมูล
+                //       _postData();
+                //       Navigator.push(context, MaterialPageRoute(builder: (context) {
+                //         return MainHomePage();
+                //       }));
+                //     },
+                //   ),
+                // ),
               ],
             ),
           ),

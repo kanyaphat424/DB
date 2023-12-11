@@ -336,18 +336,19 @@ final bankLogos = {
                   );
                   
                 },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  padding: EdgeInsets.all(12.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
+                 style: ElevatedButton.styleFrom(
+      primary: Color.fromARGB(255, 42, 146, 243),
+      onPrimary: const Color.fromARGB(255, 57, 144, 216),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        
+      ),
+    ),
                 child: Text(
                   "ถัดไป",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16.0,
+                    fontSize: 18.0,
                   ),
                 ),
               ),

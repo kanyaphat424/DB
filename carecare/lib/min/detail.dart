@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:carecare/AdminPage.dart';
+import 'package:carecare/ae/addminaccept.dart';
 import 'package:carecare/model/detailmo.dart';
 import 'package:carecare/model/token.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,14 @@ class _detailpageState extends State<detailpage> {
   bool showCompletedDetails = true;
 
   List<Ddmo> detailLists = [];
+  Ddmo selectedItem = Ddmo(
+    bookingId: "",
+    title: "",
+    bookingDate: "",
+    statee: ""
+  );
+
+  int selectedItemIndex = -1;
 
   Future<void> _postData() async {
     MyGlobalData globalData = MyGlobalData();
@@ -216,7 +225,12 @@ class _detailpageState extends State<detailpage> {
         borderRadius: BorderRadius.circular(5),
       ),
     ),
-    onPressed: () {},
+    onPressed: () {
+      Navigator.push(context,
+                        MaterialPageRoute(
+                          builder: (context) => addminaccept(somevii: i),
+                    ));
+    },
     child: Text(
       'View details',
       style: TextStyle(fontSize: 14),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:carecare/AdminPage.dart';
+import 'package:carecare/ae/addmincompletework.dart';
 import 'package:carecare/model/token.dart';
 import 'package:carecare/model/workmo.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,13 @@ class workpage extends StatefulWidget {
 //   );
 
   List<Wwmo> workLists = [];
+  Wwmo selectedItem = Wwmo(
+    bookingId: "",
+    title: "",
+    bookingDate: "",
+  );
+
+  int selectedItemIndex = -1;
 
  Future<void> _postData() async {
   MyGlobalData globalData = MyGlobalData();
@@ -115,8 +123,8 @@ Widget build(BuildContext context) {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: workLists.length,
-            itemBuilder: (context, i) {
-              return buildCard(workLists[i]);
+            itemBuilder: (context, int index) {
+              return buildCard(workLists[index]);
             },
           ),
         ],
@@ -126,7 +134,9 @@ Widget build(BuildContext context) {
 }
 
 Widget buildCard(Wwmo workList) {
-  return Card(
+  return Container(
+    height: 100, //
+  child: Card(
     margin: EdgeInsets.only(top: 5),
     child: Padding(
       padding: const EdgeInsets.all(4),
@@ -178,7 +188,20 @@ Widget buildCard(Wwmo workList) {
         borderRadius: BorderRadius.circular(5),
       ),
     ),
-    onPressed: () {},
+    onPressed: () {
+  setState(() {
+    selectedItemIndex = workLists.indexOf(workList);
+    selectedItem = workList;
+  });
+  // Navigate to customerdetail page
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => addmincompletework(somevi: workLists.indexOf(workList)),
+    ),
+  );
+},
+
     child: Text(
       'View details',
       style: TextStyle(fontSize: 13),
@@ -189,6 +212,7 @@ Widget buildCard(Wwmo workList) {
         ),
       ),
     ),
+  )
   );
 }
  }

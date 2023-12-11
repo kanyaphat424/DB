@@ -152,7 +152,7 @@ class _NextPageState extends State<NextPage> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -164,14 +164,29 @@ class _NextPageState extends State<NextPage> {
                   color: Color.fromARGB(255, 3, 103, 185),
                 ),
               ),
-              alignedText('วันที่:', '${DateFormat('yyyy-MM-dd').format(widget.bookingDate)}'),
-              alignedText('เวลาทำงาน:', widget.timeSlot),
-              alignedText('สถานที่:', widget.address),
-              alignedText('บริการ:', widget.selectedService),
-              SizedBox(height: 4.0),
-              alignedText('จำนวน:', '${widget.selectedQuantity} ${widget.quantityUnit}'),
-              SizedBox(height: 10.0),
-              alignedPrice('ราคา:', calculatePrice()),
+              Container(
+              padding: EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue, width: 1.0),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  alignedText('วันที่:', '${DateFormat('yyyy-MM-dd').format(widget.bookingDate)}'),
+                  alignedText('เวลาทำงาน:', widget.timeSlot),
+                  alignedText('สถานที่:', widget.address),
+                  alignedText('บริการ:', widget.selectedService),
+                  SizedBox(height: 4.0),
+                  alignedText('จำนวน:', '${widget.selectedQuantity} ${widget.quantityUnit}'),
+                  SizedBox(height: 10.0),
+                  alignedPrice('ราคา:', calculatePrice()),
+                ],
+              ),
+            ),
+
+
+              
               SizedBox(height: 20.0),
               Text(
                 'วิธีการชำระเงิน:',
@@ -247,18 +262,26 @@ class _NextPageState extends State<NextPage> {
                         ),
                       );
                     },
-                    style: ElevatedButton.styleFrom(
+                     style: ElevatedButton.styleFrom(
+      primary: Color.fromARGB(255, 42, 146, 243),
+      onPrimary: const Color.fromARGB(255, 57, 144, 216),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        
+      ),
+    ),
+                    /*style: ElevatedButton.styleFrom(
                       primary: Colors.blue,
                       padding: EdgeInsets.all(12.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                    ),
+                    ), */
                     child: Text(
                       "ถัดไป",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16.0,
+                        fontSize: 18.0,
                       ),
                     ),
                   ),
