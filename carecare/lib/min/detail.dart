@@ -7,8 +7,6 @@ import 'package:carecare/model/token.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
-
 class detailpage extends StatefulWidget {
   const detailpage({super.key});
 
@@ -22,12 +20,8 @@ class _detailpageState extends State<detailpage> {
   bool showCompletedDetails = true;
 
   List<Ddmo> detailLists = [];
-  Ddmo selectedItem = Ddmo(
-    bookingId: "",
-    title: "",
-    bookingDate: "",
-    statee: ""
-  );
+  Ddmo selectedItem =
+      Ddmo(bookingId: "", title: "", bookingDate: "", statee: "",accountId:"");
 
   int selectedItemIndex = -1;
 
@@ -37,7 +31,8 @@ class _detailpageState extends State<detailpage> {
     print(myValue);
     print("-----------");
     try {
-      const String apiUrl = 'http://172.20.10.3:8080/api/v1/admin/get-all-booking';
+      const String apiUrl =
+          'http://172.20.10.3:8080/api/v1/admin/get-all-booking';
       final response = await http.get(
         Uri.parse(apiUrl),
         headers: {
@@ -47,27 +42,32 @@ class _detailpageState extends State<detailpage> {
       );
 
       if (response.statusCode == 200) {
+        String responseBody = utf8.decode(response.bodyBytes);
+        List<dynamic> responseData = json.decode(responseBody);
+
         // final Map<String, dynamic> responseData = json.decode(response.body);
 
         // if (responseData.containsKey('data')) {
-          List<dynamic> responseData = json.decode(response.body);
+        //List<dynamic> responseData = json.decode(response.body);
 
-      if (responseData != null && responseData.isNotEmpty) {
+        if (responseData != null && responseData.isNotEmpty) {
           setState(() {
             detailLists = responseData
                 .map((data) => Ddmo(
-                    bookingId: data['bookingId'],
-                    title: data['title'],
-                    bookingDate: data['bookingDate'],
-                    statee: data['statee'],
+                      bookingId: data['bookingId'],
+                      title: data['title'],
+                      bookingDate: data['bookingDate'],
+                      statee: data['statee'],
+                       accountId: data['accountId'],
                     ))
                 .toList();
             // แยกข้อมูลเป็นรายการที่เสร็จสิ้นและยกเลิก
-            completedDetails =
-            detailLists.where((detail) => detail.statee == 'Success').toList();
-            canceledDetails =
-            detailLists.where((detail) => detail.statee == 'Cancel').toList();
-
+            completedDetails = detailLists
+                .where((detail) => detail.statee == 'Success')
+                .toList();
+            canceledDetails = detailLists
+                .where((detail) => detail.statee == 'Cancel')
+                .toList();
           });
         } else {
           print("Invalid JSON data");
@@ -102,12 +102,10 @@ class _detailpageState extends State<detailpage> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return AdminPage();
-                    }));
-                    
-                  },
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AdminPage();
+            }));
+          },
           icon: const Icon(
             Icons.arrow_circle_left_outlined,
             color: Colors.blue,
@@ -168,7 +166,7 @@ class _detailpageState extends State<detailpage> {
                       ? completedDetails[i]
                       : canceledDetails[i];
                   return SizedBox(
-                    width: 30,
+                    
                     height: 100,
                     child: Card(
                       margin: EdgeInsets.only(top: 8),
@@ -193,13 +191,13 @@ class _detailpageState extends State<detailpage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'หมายเลขการจอง',
+                                '',
                               ),
                               SizedBox(width: 5),
                               Text(
-                                detail.bookingId,
+                                detail.accountId,
                                 style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 10,
                                 ),
                               ),
                             ],
@@ -215,28 +213,31 @@ class _detailpageState extends State<detailpage> {
                               ),
                               SizedBox(height: 5),
                               Container(
-  width: 120,
-  height: 30,
-  child: ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      primary: Color.fromARGB(255, 216, 232, 247),
-      onPrimary: const Color.fromARGB(255, 57, 144, 216),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
-      ),
-    ),
-    onPressed: () {
-      Navigator.push(context,
-                        MaterialPageRoute(
-                          builder: (context) => addminaccept(somevii: i),
-                    ));
-    },
-    child: Text(
-      'View details',
-      style: TextStyle(fontSize: 14),
-    ),
-  ),
-),
+                                width: 120,
+                                height: 30,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color.fromARGB(255, 216, 232, 247),
+                                    onPrimary:
+                                        const Color.fromARGB(255, 57, 144, 216),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              addminaccept(somevii: i),
+                                        ));
+                                  },
+                                  child: Text(
+                                    'View details',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),

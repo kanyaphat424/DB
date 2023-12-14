@@ -20,7 +20,9 @@ class Booking1 {
   String title;
   String file;
   String accountId;
+  String path;
   String statee;
+  String date;
  
 
   Booking1({
@@ -35,7 +37,9 @@ class Booking1 {
     required this.title,
     required this.file,
     required this.accountId,
+    required this.path,
     required this.statee,
+    required this.date,
   });
 
   factory Booking1.fromJson(Map<String, dynamic> json) => Booking1(
@@ -50,7 +54,9 @@ class Booking1 {
         title: json["title"],
         file: json["file"],
         accountId: json["accountId"],
+        path: json["path"],
         statee: json["statee"],
+        date: json["date"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,6 +71,8 @@ class Booking1 {
         "title": title,
         "file": file,
         "accountId": accountId,
+         "path": path,
         "statee": statee,
+        "date": date,
       };
 }

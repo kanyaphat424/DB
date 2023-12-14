@@ -25,17 +25,6 @@ class _customerdetailState extends State<customerdetail> {
   TextEditingController _sex = TextEditingController();
   TextEditingController _accountId = TextEditingController();
 
-  // Admincustomerid admincustomerid = Admincustomerid(
-  //   accountId: "",
-  //   name: "",
-  //   birthday: "",
-  //   tel: "",
-  //   email: "",
-  //   address: "",
-  //   sex: "",
-  // );
-
-// class _customerdetailState extends State<customerdetail> {
   Admincustomerid admincustomerid = Admincustomerid(
     accountId: "",
     name: "",
@@ -72,7 +61,8 @@ class _customerdetailState extends State<customerdetail> {
       );
       print(response.statusCode);
       if (response.statusCode == 200) {
-        List<dynamic> responseData = json.decode(response.body);
+        String responseBody = utf8.decode(response.bodyBytes);
+        List<dynamic> responseData = json.decode(responseBody);
 
         if (responseData.isNotEmpty) {
           setState(() {
@@ -315,9 +305,11 @@ class _customerdetailState extends State<customerdetail> {
                                 size: 24,
                                 color: Colors.blue,
                               ),
-                              Text(
-                                admincustomerid.address,
-                                style: TextStyle(fontSize: 18, color: Colors.black),
+                              Expanded(
+                                child: Text(
+                                  admincustomerid.address,
+                                  style: TextStyle(fontSize: 18, color: Colors.black),
+                                ),
                               ),
                             ],
                           ),

@@ -56,7 +56,10 @@ class _customeraddetails extends State<customeraddetails> {
         // final Map<String, dynamic> responseData = json.decode(response.body);
 
         // if (responseData.containsKey('data')) {
-        List<dynamic> responseData = json.decode(response.body);
+          String responseBody = utf8.decode(response.bodyBytes);
+        List<dynamic> responseData = json.decode(responseBody);
+
+        //List<dynamic> responseData = json.decode(response.body);
 
         if (responseData.isNotEmpty) {
           setState(() {
@@ -88,40 +91,6 @@ class _customeraddetails extends State<customeraddetails> {
       print("Error: $error");
     }
   }
-
-  // Future<void>_deleteDataToApi() async {
-  //   MyGlobalData globalData = MyGlobalData();
-  //   String myValue = globalData.token.trim();
-
-  //   try {
-  //     const String deleteApiUrl = 'http://172.20.10.3:8080/api/v1/member/delete';
-  //     final Map<String, dynamic> deleteData = {
-  //       'name': _name.text,
-  //     'accountId': _accountId.text,
-  //      'someValue': widget.someValue,
-  //       // Add other keys as needed
-  //     };
-
-  //     final response = await http.delete(
-  //       Uri.parse(deleteApiUrl),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer $myValue',
-  //       },
-  //       body: json.encode(deleteData),
-  //     );
-
-  //     print(response.statusCode);
-  //     if (response.statusCode == 200) {
-  //       // Handle success
-  //     } else {
-  //       print("Error: ${response.statusCode}");
-  //       print("Error: ${response.body}");
-  //     }
-  //   } catch (error) {
-  //     print("Error: $error");
-  //   }
-  // }
 
   Future<void> _deleteDataToApi() async {
     // MyGlobalData globalData = MyGlobalData();
@@ -272,18 +241,6 @@ class _customeraddetails extends State<customeraddetails> {
                               ),
                             );
                           },
-                          //()async {
-                          //   if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-                          //     await _deleteDataToApi();
-                          //     //เพิ่มโค้ดสำหรับ navigate หลังจากการลบข้อมูล (ถ้าต้องการ)
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //         builder: (context) => controlpage(),
-                          //       ),
-                          //     );
-                          //   }
-                          // },
                           style: ElevatedButton.styleFrom(
                             primary: Colors.red.shade300,
                             minimumSize: Size(100, 50),

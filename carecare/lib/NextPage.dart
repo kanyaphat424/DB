@@ -45,7 +45,7 @@ class _NextPageState extends State<NextPage> {
   double calculatePrice() {
     final servicesPrices = {
       "assets/แม่บ้าน.png": {
-        "ขนาดพื้นที่ไม่เกิน 35 ตร.ม.": 520.0,
+        
         "ขนาดพื้นที่ 36-80 ตร.ม.": 720.0,
         "ขนาดพื้นที่ 81-100 ตร.ม.": 820.0,
       },

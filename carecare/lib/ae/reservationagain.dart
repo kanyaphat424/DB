@@ -60,7 +60,9 @@ class _reserveagainState extends State<reserveagain> {
       amount: "",
       file: "",
       price: "",
-      accountId: "");
+      accountId: "",
+      path: "",
+      date: "");
 
   Booking currentItem = Booking(
       bookingDate: "",
@@ -73,29 +75,35 @@ class _reserveagainState extends State<reserveagain> {
       amount: "",
       file: "",
       price: "",
-      accountId: "");
+      accountId: "",
+      path:"",
+      date:  "");
 
 
 //สำหรับดึงรูป//
-  Future<void> fetchImagePath() async {
-    try {
-      const String apiUrl =
-          'http://172.20.10.3:8080/api/v1/member/get-history-booking'; // แทนที่ด้วย URL ของ backend ที่ให้ path รูป
-      final response = await http.get(Uri.parse(apiUrl));
+  Future<void> fetchData() async {
+  const String apiUrl = 'http://172.20.10.3:8080/api/v1/member/get-history-booking';
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        // กำหนด path ที่ได้รับมาจาก backend
-        setState(() {
-          file = responseData['file']; //ตัวแปรข้างบน
-        });
-      } else {
-        print("Error: ${response.statusCode}");
+  try {
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      
+      // ใช้ json.decode เพื่อแปลงข้อมูล JSON ที่ได้จาก response body
+      try {
+        final decodedResponse = json.decode(response.body);
+        // ใช้ decodedResponse ที่ได้ต่อไป
+        print(decodedResponse);
+      } catch (e) {
+        print('Error decoding JSON response: $e');
       }
-    } catch (error) {
-      print("Error: $error");
+    } else {
+      print('Error: ${response.statusCode}');
     }
+  } catch (e) {
+    print('Error: $e');
   }
+}
 //ถึงนี่//
 
   Future<void> _postData() async {
@@ -122,7 +130,10 @@ class _reserveagainState extends State<reserveagain> {
       print(response.statusCode);
 
       if (response.statusCode == 200) {
-        List<dynamic> responseData = json.decode(response.body);
+        String responseBody = utf8.decode(response.bodyBytes);
+        List<dynamic> responseData = json.decode(responseBody);
+
+        //List<dynamic> responseData = json.decode(response.body);
 
         if (responseData.isNotEmpty) {
           setState(() {
@@ -141,7 +152,9 @@ class _reserveagainState extends State<reserveagain> {
             address: reserveagainData['address'] ?? "",
             title: reserveagainData['title'] ?? "",
             file: reserveagainData['file'] ?? "",
-            accountId: reserveagainData['accountId'] ?? "",);
+            accountId: reserveagainData['accountId'] ?? "",
+            path: reserveagainData['path'] ?? "",
+            date: reserveagainData['date']);
           });
         } else {
           // กรณี API ส่งข้อมูลที่ไม่ถูกต้อง
@@ -159,7 +172,7 @@ class _reserveagainState extends State<reserveagain> {
   @override
   void initState() {
     _postData();
-    fetchImagePath();
+    fetchData();
     super.initState();
   }
 
@@ -328,7 +341,7 @@ class _reserveagainState extends State<reserveagain> {
                         height: 5,
                       ),
                       Text(
-                        booking.bookingId,
+                        booking.date,
                         style: TextStyle(color: Colors.grey, fontSize: 18),
                       ),
                       SizedBox(
@@ -418,7 +431,7 @@ class _reserveagainState extends State<reserveagain> {
                         height: 5,
                       ),
                       Text(
-                        booking.select_payment,
+                        booking.payment,
                         style: TextStyle(color: Colors.grey, fontSize: 18),
                       ),
                       SizedBox(
@@ -436,7 +449,7 @@ class _reserveagainState extends State<reserveagain> {
                         height: 5,
                       ),
                       Text(
-                        booking.payment,
+                        booking.select_payment,
                         style: TextStyle(color: Colors.grey, fontSize: 18),
                       ),
                       SizedBox(
@@ -444,15 +457,16 @@ class _reserveagainState extends State<reserveagain> {
                       ),
                       ElevatedButton(
                         onPressed: () {
+                         
                           showDialog(
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Image.network(
-                                  'http://172.20.10.3:8080/api/v1/member/get-history-booking',
-                                  fit: BoxFit.contain,
-                                ),
-                              );
+    content: Image(
+      image: NetworkImage('http://172.20.10.3:8080/api/v1/upload/image/${booking.path}'),
+      fit: BoxFit.contain,
+    ),
+  );
                             },
                           );
                         },
@@ -484,8 +498,7 @@ class _reserveagainState extends State<reserveagain> {
                 ),
                 minimumSize: const Size(330, 50),
               ),
-              onPressed: ()  {
-                
+              onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return MainHomePage();
                 }));

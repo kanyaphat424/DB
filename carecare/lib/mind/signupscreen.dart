@@ -82,13 +82,13 @@ class _signupscreenState extends State<signupscreen> {
           children: [
             //SizedBox(height: 20,),
             Container(
-                  decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(60),
-          bottomRight: Radius.circular(60),
-        ),
-      ),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(35),
+                  bottomRight: Radius.circular(35),
+                ),
+              ),
               width: w,
               height: h * 0.22,
               child: Column(
@@ -278,7 +278,7 @@ class _signupscreenState extends State<signupscreen> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "โปรดป้อนเบอร์โทรศัพท์ของคุณ";
-                            }else if (_tel.text.length < 10) {
+                            } else if (_tel.text.length < 10) {
                               return "เบอร์โทรศัพท์ของคุณไม่ถูกต้อง";
                             }
                           },
@@ -315,11 +315,10 @@ class _signupscreenState extends State<signupscreen> {
                               _birthday.text =
                                   DateFormat('yyyy-MM-dd').format(pickeddate);
                             });
-                           }
+                          }
                           // else{
                           //     return "โปรดป้อนวัน/เดือน/ปีเกิดของคุณ";
                           //     }
-                          
                         },
                       ),
                       const SizedBox(
@@ -409,16 +408,17 @@ class _signupscreenState extends State<signupscreen> {
                                       color: Colors.white, width: 1.0)),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20)),
-                                  prefixIcon: Icon(Icons.email_outlined)),
+                              prefixIcon: Icon(Icons.email_outlined)),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "โปรดป้อนที่อยู่ของคุณ";
-                            }if(!value.contains('@')){
+                            }
+                            if (!value.contains('@')) {
                               return "อีเมลไม่ถูกต้อง โปรดใส่ '@' ในอีเมลของคุณ";
-                            } 
-                          },),
+                            }
+                          },
                         ),
-                      
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -465,7 +465,7 @@ class _signupscreenState extends State<signupscreen> {
                                       color: Colors.white, width: 1.0)),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20))),
-                                  validator: (value) {
+                          validator: (value) {
                             if (value!.isEmpty) {
                               return "โปรดป้อนรหัสผ่านของคุณ";
                             } else if (_password.text.length < 8) {
@@ -480,15 +480,16 @@ class _signupscreenState extends State<signupscreen> {
                 ),
               ),
             ),
-          
-            SizedBox(height: 20,),
-             Container(
+
+            SizedBox(
+              height: 20,
+            ),
+            Container(
               margin: const EdgeInsets.only(left: 20, right: 20),
 
               //color: Colors.blue,
               width: w * 0.9,
               height: h * 0.06,
-              
 
               child: ElevatedButton(
                   child: const Text("ลงทะเบียน",
@@ -521,7 +522,9 @@ class _signupscreenState extends State<signupscreen> {
                         color: Colors.grey.withOpacity(0.3)),
                   ]),
             ),
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
           ],
         ));
   }

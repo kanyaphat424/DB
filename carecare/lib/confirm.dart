@@ -152,7 +152,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                           color: Color.fromARGB(255, 3, 103, 185),
                         ),
                       ),
-                      SizedBox(height: 16.0),
+                      SizedBox(height: 9.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -250,31 +250,31 @@ class _ConfirmPageState extends State<ConfirmPage> {
                         ],
                       ),
                       SizedBox(height: 10.0),
-                      FractionalTranslation(
-                        translation: Offset(0.23, 0.0),
-                        child: RichText(
-                            text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'ราคา: ',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '${widget.totalPrice} บาท',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ],
-                        ),
-                      ),
-                  )],
+                      Transform.translate(
+      offset: Offset(2.0, 0.0), // Adjust the values as needed
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: 'ราคา: ',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            TextSpan(
+              text: '${widget.totalPrice} บาท',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.green,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),],
                   ),
                 ),
                 SizedBox(height: 10.0),
@@ -282,81 +282,82 @@ class _ConfirmPageState extends State<ConfirmPage> {
               
               
               SizedBox(height: 10.0),
-                  Container(
-                  padding: EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blue, width: 1.0),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Column(
-                    children: [
-                     FractionalTranslation(
-  translation: Offset(-0.53, 0.0),
-  child: Text(
-    'รายละเอียดชำระเงิน:',
-    style: TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.bold,
-      color: Color.fromARGB(255, 3, 103, 185),
-    ),
+              Container(
+  padding: EdgeInsets.all(16.0),
+  decoration: BoxDecoration(
+    border: Border.all(color: Colors.blue, width: 1.0),
+    borderRadius: BorderRadius.circular(8.0),
+  ),
+  child: Column(
+    children: [
+      FractionalTranslation(
+        translation: Offset(-0.53, 0.0),
+        child: Text(
+          'รายละเอียดชำระเงิน:',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(255, 3, 103, 185),
+          ),
+        ),
+      ),
+      SizedBox(height: 5.0),
+      Row(
+        children: [
+          FractionalTranslation(
+            translation: Offset(0.05, 0.0),
+            child: Text(
+              'ตัวเลือกการชำระ: ',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          FractionalTranslation(
+            translation: Offset(0.3, 0.0),
+            child: Text(
+              '${widget.yourPreferredName != null ? widget.yourPreferredName : "ไม่ได้ระบุ"}',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+      SizedBox(height: 5.0), // Add vertical space here
+      Row(
+        children: [
+          FractionalTranslation(
+            translation: Offset(0.1, 0.0),
+            child: Text(
+              'วิธีการชำระ: ',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          FractionalTranslation(
+            translation: Offset(0.5, 0.0),
+            child: Text(
+              '${widget.selectedPaymentMethod != null ? widget.selectedPaymentMethod : "กรุณาเลือกวิธีชำระเงิน"}',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+      SizedBox(height: 5.0), // Add vertical space here
+    ],
   ),
 ),
 
-                      SizedBox(height: 5.0),
-                      Row(
-                        children: [
-                          FractionalTranslation(
-                            translation: Offset(0.25, 0.0),
-                            child: Text(
-                              'เลือกการชำระ: ',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          FractionalTranslation(
-                            translation: Offset(0.5, 0.0),
-                            child: Text(
-                              '${widget.yourPreferredName != null ? widget.yourPreferredName : "ไม่ได้ระบุ"}',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5.0),
-                      Row(
-                        children: [
-                          FractionalTranslation(
-                            translation: Offset(0.3, 0.0),
-                            child: Text(
-                              'วิธีการชำระ: ',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          FractionalTranslation(
-                            translation: Offset(0.5, 0.0),
-                            child: Text(
-                              '${widget.selectedPaymentMethod != null ? widget.selectedPaymentMethod : "กรุณาเลือกวิธีชำระเงิน"}',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
 
 
 

@@ -9,12 +9,14 @@ class Ddmo {
     String bookingDate;
     String title;
     String statee;
+    String accountId;
 
     Ddmo({
         required this.bookingId,
         required this.bookingDate,
         required this.title,
         required this.statee,
+        required this.accountId,
     });
 
     factory Ddmo.fromJson(Map<String, dynamic> json) => Ddmo(
@@ -22,6 +24,7 @@ class Ddmo {
         bookingDate: json["bookingDate"],
         title: json["title"],
         statee: json["statee"],
+        accountId: json["accountId"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -29,5 +32,6 @@ class Ddmo {
         "bookingDate": bookingDate,
         "title": title,
         "statee": statee,
+         "accountId": accountId,
     };
 }

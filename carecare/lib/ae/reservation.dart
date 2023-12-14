@@ -42,7 +42,10 @@ class _ReservationState extends State<Reservation> {
         },
       );
       if (response.statusCode == 200) {
-        List<dynamic> responseData = json.decode(response.body);
+        String responseBody = utf8.decode(response.bodyBytes);
+        List<dynamic> responseData = json.decode(responseBody);
+
+        //List<dynamic> responseData = json.decode(response.body);
 
       if (responseData != null && responseData.isNotEmpty) {
   setState(() {
@@ -59,33 +62,7 @@ class _ReservationState extends State<Reservation> {
           );
         })
         .toList();
-      //detailLists = List.from(detail);
-      // if (response.statusCode == 200) {
-      //   List<dynamic> responseData = json.decode(response.body);
 
-      //   if (responseData != null && responseData.isNotEmpty) {
-      //     setState(() {
-      //       detailLists = responseData.map((data) {
-      //         String accountId =
-      //             data['accountId'] != null ? data['accountId'].toString() : '';
-      //         return Booking1(
-      //           bookingDate: data['bookingDate'],
-      //           timeslot: data['timeslot'],
-      //           select: data['select'],
-      //           amount: data['amount'],
-      //           payment: data['payment'],
-      //           select_Payment: data['selectPayment'],
-      //           price: data['price'],
-      //           address: data['address'],
-      //           title: data['title'],
-      //           file: data['file'],
-      //           accountId: accountId,
-      //           date: data['date'],
-      //           desc: data['desc'],
-      //           statee: data['statee'],
-      //           bookingId: data['bookingId'],
-      //         );
-      //       }).toList();
           });
         } else {
           print("Invalid or empty JSON data");
@@ -167,12 +144,7 @@ class _ReservationState extends State<Reservation> {
           const SizedBox(
             height: 20,
           ),
-          // The reservation content you mentioned
-          // Visibility(
-          //   visible: isReservationContentVisible,
-          //   child: _ReservationContent(),
-          // ),
-
+         
           Expanded(
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -185,7 +157,7 @@ class _ReservationState extends State<Reservation> {
                     return Container(
                         margin: const EdgeInsets.only(bottom: 15),
                         width: MediaQuery.of(context).size.width,
-                        height: 320,
+                        height: 350,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.blue.shade300),

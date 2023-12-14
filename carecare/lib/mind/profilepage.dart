@@ -3,8 +3,9 @@ import 'dart:convert';
 
 import 'package:carecare/ae/Listservice.dart';
 import 'package:carecare/homescreen.dart';
+import 'package:carecare/mind/editpro.dart';
 import 'package:carecare/mind/editsignup.dart';
-import 'package:carecare/mind/passwordpage.dart';
+import 'package:carecare/mind/password.dart';
 import 'package:carecare/model/profile.dart';
 import 'package:carecare/model/token.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,10 @@ class _profilepageState extends State<profilepage> {
       );
       print(response.statusCode);
       if (response.statusCode == 200) {
-        final Map<String, dynamic>? responseData = json.decode(response.body);
+        String responseBody = utf8.decode(response.bodyBytes);
+        //List<dynamic> responseData = json.decode(responseBody);
+
+        final Map<String, dynamic>? responseData = json.decode(responseBody);
 
         if (responseData != null) {
           setState(() {
@@ -421,7 +425,7 @@ class _profilepageState extends State<profilepage> {
                         )),
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return editsignup();
+                        return editpro();
                       }));
                     },
                   ),

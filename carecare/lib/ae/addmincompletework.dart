@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-
-
 class addmincompletework extends StatefulWidget {
   //late String token = "";
 
@@ -26,7 +24,6 @@ class addmincompletework extends StatefulWidget {
   @override
   State<addmincompletework> createState() => _addmincompleteworkState();
 }
-
 
 class _addmincompleteworkState extends State<addmincompletework> {
   late String token;
@@ -50,17 +47,20 @@ class _addmincompleteworkState extends State<addmincompletework> {
   Icon v1 = const Icon(Icons.visibility_rounded);
 
   Booking booking = Booking(
-      bookingDate: "",
-      bookingId: "",
-      address: "",
-      select: "",
-      payment: "",
-      title: "",
-      select_payment: "",
-      amount: "",
-      file: "",
-      price: "",
-      accountId: "");
+    bookingDate: "",
+    bookingId: "",
+    address: "",
+    select: "",
+    payment: "",
+    title: "",
+    select_payment: "",
+    amount: "",
+    file: "",
+    price: "",
+    accountId: "",
+    path: "",
+    date: "",
+  );
 
   Booking currentItem = Booking(
       bookingDate: "",
@@ -73,14 +73,15 @@ class _addmincompleteworkState extends State<addmincompletework> {
       amount: "",
       file: "",
       price: "",
-      accountId: "");
-
+      accountId: "",
+      path: "",
+      date: "");
 
 //สำหรับดึงรูป//
   Future<void> fetchImagePath() async {
     try {
       const String apiUrl =
-          'http://your-backend-api-url'; // แทนที่ด้วย URL ของ backend ที่ให้ path รูป
+          'http://172.20.10.3:8080/api/v1/upload/image/{filename}'; // แทนที่ด้วย URL ของ backend ที่ให้ path รูป
       final response = await http.get(Uri.parse(apiUrl));
 
       if (response.statusCode == 200) {
@@ -98,32 +99,31 @@ class _addmincompleteworkState extends State<addmincompletework> {
   }
 //ถึงนี่//
 
-Future<void> fetchData() async {
-  const String apiUrl = 'http://172.20.10.3:8080/api/v1/admin/get-all-booking';
+  Future<void> fetchData() async {
+    const String apiUrl =
+        'http://172.20.10.3:8080/api/v1/admin/get-all-booking';
 
-  try {
-    final response = await http.get(Uri.parse(apiUrl));
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
 
-    String responseBody = utf8.decode(response.bodyBytes);
+      String responseBody = utf8.decode(response.bodyBytes);
 
-    if (response.statusCode == 200) {
-      
-      // ใช้ json.decode เพื่อแปลงข้อมูล JSON ที่ได้จาก response body
-      try {
-        final decodedResponse = json.decode(response.body);
-        // ใช้ decodedResponse ที่ได้ต่อไป
-        print(decodedResponse);
-      } catch (e) {
-        print('Error decoding JSON response: $e');
+      if (response.statusCode == 200) {
+        // ใช้ json.decode เพื่อแปลงข้อมูล JSON ที่ได้จาก response body
+        try {
+          final decodedResponse = json.decode(response.body);
+          // ใช้ decodedResponse ที่ได้ต่อไป
+          print(decodedResponse);
+        } catch (e) {
+          print('Error decoding JSON response: $e');
+        }
+      } else {
+        print('Error: ${response.statusCode}');
       }
-    } else {
-      print('Error: ${response.statusCode}');
+    } catch (e) {
+      print('Error: $e');
     }
-  } catch (e) {
-    print('Error: $e');
   }
-}
-
 
   Future<void> _postData() async {
     MyGlobalData globalData = MyGlobalData();
@@ -135,7 +135,7 @@ Future<void> fetchData() async {
           'http://172.20.10.3:8080/api/v1/admin/get-all-booking';
       final response = await http.get(
         Uri.parse(apiUrl),
-          headers: {
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $myValue',
         },
@@ -143,13 +143,15 @@ Future<void> fetchData() async {
         //   'Authorization': 'Bearer ${MyGlobalData().token}',
         //   'Content-Type': 'multipart/form-data',
         // },
-  
       );
-      
+
       print(response.statusCode);
 
       if (response.statusCode == 200) {
-        List<dynamic> responseData = json.decode(response.body);
+        String responseBody = utf8.decode(response.bodyBytes);
+        List<dynamic> responseData = json.decode(responseBody);
+
+        //List<dynamic> responseData = json.decode(response.body);
 
         if (responseData.isNotEmpty) {
           setState(() {
@@ -158,17 +160,20 @@ Future<void> fetchData() async {
                 responseData[widget.somevi];
 
             booking = Booking(
-            bookingDate: reserveagainData['bookingDate'] ?? "",
-            bookingId: reserveagainData['bookingId'] ?? "",
-            select: reserveagainData['select'] ?? "",
-            amount: reserveagainData['amount'] ?? "",
-            payment: reserveagainData['payment'] ?? "",
-            select_payment: reserveagainData['select_payment'] ?? "",
-            price: reserveagainData['price'] ?? "",
-            address: reserveagainData['address'] ?? "",
-            title: reserveagainData['title'] ?? "",
-            file: reserveagainData['file'] ?? "",
-            accountId: reserveagainData['accountId'] ?? "",);
+              bookingDate: reserveagainData['bookingDate'] ?? "",
+              bookingId: reserveagainData['bookingId'] ?? "",
+              select: reserveagainData['select'] ?? "",
+              amount: reserveagainData['amount'] ?? "",
+              payment: reserveagainData['payment'] ?? "",
+              select_payment: reserveagainData['select_payment'] ?? "",
+              price: reserveagainData['price'] ?? "",
+              address: reserveagainData['address'] ?? "",
+              title: reserveagainData['title'] ?? "",
+              file: reserveagainData['file'] ?? "",
+              accountId: reserveagainData['accountId'] ?? "",
+              path: reserveagainData['path'] ?? "",
+              date: reserveagainData['date']?? "",
+            );
           });
         } else {
           // กรณี API ส่งข้อมูลที่ไม่ถูกต้อง
@@ -355,7 +360,7 @@ Future<void> fetchData() async {
                         height: 5,
                       ),
                       Text(
-                        booking.bookingId,
+                        booking.date,
                         style: TextStyle(color: Colors.grey, fontSize: 18),
                       ),
                       SizedBox(
@@ -445,7 +450,7 @@ Future<void> fetchData() async {
                         height: 5,
                       ),
                       Text(
-                        booking.select_payment,
+                        booking.payment,
                         style: TextStyle(color: Colors.grey, fontSize: 18),
                       ),
                       SizedBox(
@@ -463,7 +468,7 @@ Future<void> fetchData() async {
                         height: 5,
                       ),
                       Text(
-                        booking.payment,
+                        booking.select_payment,
                         style: TextStyle(color: Colors.grey, fontSize: 18),
                       ),
                       SizedBox(
@@ -475,8 +480,9 @@ Future<void> fetchData() async {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Image.network(
-                                  file,
+                                content: Image(
+                                  image: NetworkImage(
+                                      'http://172.20.10.3:8080/api/v1/upload/image/${booking.path}'),
                                   fit: BoxFit.contain,
                                 ),
                               );
@@ -500,17 +506,18 @@ Future<void> fetchData() async {
                 ),
               ),
             ),
-const SizedBox(
+            const SizedBox(
               height: 20,
             ),
-             Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   onPressed: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return workpage();
-            }));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return workpage();
+                    }));
                     // Add your delete action here
                   },
                   style: ElevatedButton.styleFrom(
@@ -527,9 +534,10 @@ const SizedBox(
                 const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return workpage();
-            }));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return workpage();
+                    }));
                     // Add your cancel action here
                   },
                   style: ElevatedButton.styleFrom(
@@ -555,12 +563,3 @@ const SizedBox(
 }
   
 
-//             const SizedBox(
-//               height: 20,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

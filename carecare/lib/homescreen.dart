@@ -56,7 +56,7 @@ class _MainHomePageState extends State<MainHomePage> {
                       children: [
                         const SizedBox(height: 20),
                         const Text(
-                          "สวัสดี คุณจอห์น",
+                          "สวัสดี ยินดีต้อนรับ",
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
@@ -104,7 +104,7 @@ class _MainHomePageState extends State<MainHomePage> {
                         Container(
                           child: CategoryCard(
                             image: 'assets/ปะปา1.png',
-                            title: 'ช่างปะปา',
+                            title: 'ช่างประปา',
                           ),
                         ),
                       ],
@@ -334,7 +334,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
   final timeOptions = ["เช้า(9.00-12.00)", "บ่าย (13.00-15.00)"];
 
   final servicesForImage1 = [
-    "ขนาดพื้นที่ไม่เกิน35ตร.ม.",
+    
     "ขนาดพื้นที่ 36-80 ตร.ม.",
     "ขนาดพื้นที่ 81-100 ตร.ม."
   ];
@@ -396,7 +396,10 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
       print(response.statusCode);
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = json.decode(response.body);
+        String responseBody = utf8.decode(response.bodyBytes);
+        //List<dynamic> responseData = json.decode(responseBody);
+
+        final Map<String, dynamic> responseData = json.decode(responseBody);
         if (responseData!=null){
           setState(() {
             welcome = Welcome(
@@ -510,6 +513,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                     children: [
                       IconButton(
                         icon: Icon(Icons.calendar_today),
+                        color: Colors.blue,
                         onPressed: () {
                           _selectBookingDate(context);
                         },
@@ -667,36 +671,21 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
       child: Row(
         children: [
          Expanded(
-  child: Row(
-    children: [
-      Expanded(
-        child: Stack(
-          alignment: Alignment.centerLeft,
-          children: [
-            Text(
-              welcome.address,
-              style: TextStyle(fontSize: 18, color: Colors.black),
-            ),
-            Positioned(
-              left: 30,
-              top: 0,
-              bottom: 30,
-              child: Icon(Icons.location_on),
-            ),
-            Positioned(
-              left: 60, // Adjust the left position as needed
-              top: 0,
-              bottom: 30,
-              child: Text(
-                "Additional Text", // Your additional text here
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ],
-  ),
+  child: 
+  Row(
+                    children: [
+                      // Add your icon here
+                      Icon(
+                        Icons.location_on, // Use the desired icon
+                        color: Colors.blue, // Set the desired icon color
+                      ),
+                      SizedBox(width: 8), // Add some spacing between icon and text
+                      Text(
+                        welcome.address,
+                        style: TextStyle(fontSize: 18, color: Colors.black),
+                      ),
+                    ],
+                  ),
 ),
 
         ],

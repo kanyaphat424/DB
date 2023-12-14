@@ -61,7 +61,7 @@ class _AdminPageState extends State<AdminPage> {
                     children: [
                       const SizedBox(height: 10),
                       const Text(
-                        "Admin Careclean",
+                        "Admin CareClean",
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,

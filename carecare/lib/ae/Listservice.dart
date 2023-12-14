@@ -40,7 +40,10 @@ class _ListserviceState extends State<Listservice> {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> responseData = json.decode(response.body);
+        String responseBody = utf8.decode(response.bodyBytes);
+        List<dynamic> responseData = json.decode(responseBody);
+
+        //List<dynamic> responseData = json.decode(response.body);
 
       if (responseData != null && responseData.isNotEmpty) {
   setState(() {

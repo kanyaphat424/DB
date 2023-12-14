@@ -33,6 +33,7 @@ class workpage extends StatefulWidget {
     bookingId: "",
     title: "",
     bookingDate: "",
+    accountId: ""
   );
 
   int selectedItemIndex = -1;
@@ -53,10 +54,13 @@ class workpage extends StatefulWidget {
     );
 
     if (response.statusCode == 200) {
+      String responseBody = utf8.decode(response.bodyBytes);
+        List<dynamic> responseData = json.decode(responseBody);
+
       // final Map<String, dynamic> responseData = json.decode(response.body);
 
       // if (responseData.containsKey('data')) {
-        List<dynamic> responseData = json.decode(response.body);
+        //List<dynamic> responseData = json.decode(response.body);
 
       if (responseData != null && responseData.isNotEmpty) {
         setState(() {
@@ -65,6 +69,7 @@ class workpage extends StatefulWidget {
                     bookingId: data['bookingId'],
                     title: data['title'],
                     bookingDate: data['bookingDate'],
+                   accountId: data['accountId'],
                   ))
               .toList();
         });
@@ -92,7 +97,7 @@ Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
       title: const Text(
-        "รายละเอียดลูกค้า",
+        "ตารางงาน",
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -123,7 +128,7 @@ Widget build(BuildContext context) {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: workLists.length,
-            itemBuilder: (context, int index) {
+            itemBuilder: (context,int index) {
               return buildCard(workLists[index]);
             },
           ),
@@ -158,12 +163,11 @@ Widget buildCard(Wwmo workList) {
         subtitle: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('หมายเลขการจอง',),
-            SizedBox(width: 5),
-            Text(
-              workList.bookingId,
+            // Text('หมายเลขการจอง',),
+            // SizedBox(width: 5),
+            Text(workList.accountId,
               style: TextStyle(
-                fontSize: 15,
+               fontSize: 10,
               ),
             ),
           ],

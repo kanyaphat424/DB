@@ -43,6 +43,8 @@ class _loginscreenState extends State<loginscreen> {
 
   Future<void> _postData() async {
     try {
+      print(_email.text);
+      print(_password.text);
       final String apiUrl = 'http://172.20.10.3:8080/api/v1/member/login';
       final response = await http.post(
         Uri.parse(apiUrl),
@@ -167,14 +169,14 @@ class _loginscreenState extends State<loginscreen> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
+        body: ListView(
           children: [
             Container(
                     decoration: BoxDecoration(
         color: Colors.blue,
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(60),
-          bottomRight: Radius.circular(60),
+          bottomLeft: Radius.circular(35),
+          bottomRight: Radius.circular(35),
         ),
       ),
               width: w,

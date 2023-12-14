@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-
-
 class addminaccept extends StatefulWidget {
   //late String token = "";
 
@@ -28,7 +26,6 @@ class addminaccept extends StatefulWidget {
   @override
   State<addminaccept> createState() => _addminacceptState();
 }
-
 
 class _addminacceptState extends State<addminaccept> {
   late String token;
@@ -52,33 +49,36 @@ class _addminacceptState extends State<addminaccept> {
   Icon v1 = const Icon(Icons.visibility_rounded);
 
   Booking1 booking1 = Booking1(
-     bookingDate: "",
-        bookingId: "",
-        select: "",
-        amount: "",
-        payment: "",
-        select_payment: "",
-        price: "",
-        address: "",
-        title: "",
-        file: "",
-        accountId: "",
-        statee: "");
+      bookingDate: "",
+      bookingId: "",
+      select: "",
+      amount: "",
+      payment: "",
+      select_payment: "",
+      price: "",
+      address: "",
+      title: "",
+      file: "",
+      accountId: "",
+      path: "",
+      statee: "",
+      date: "");
 
   Booking1 currentItem = Booking1(
       bookingDate: "",
-        bookingId: "",
-        select: "",
-        amount: "",
-        payment: "",
-        select_payment: "",
-        price: "",
-        address: "",
-        title: "",
-        file: "",
-        accountId: "",
-        statee: "");
-
+      bookingId: "",
+      select: "",
+      amount: "",
+      payment: "",
+      select_payment: "",
+      price: "",
+      address: "",
+      title: "",
+      file: "",
+      accountId: "",
+      path: "",
+      statee: "",
+      date: "");
 
 //สำหรับดึงรูป//
   Future<void> fetchImagePath() async {
@@ -102,32 +102,29 @@ class _addminacceptState extends State<addminaccept> {
   }
 //ถึงนี่//
 
-Future<void> fetchData() async {
-  const String apiUrl = 'http://172.20.10.3:8080/api/v1/admin/get-all-booking';
+  Future<void> fetchData() async {
+    const String apiUrl =
+        'http://172.20.10.3:8080/api/v1/member/get-history-booking';
 
-  try {
-    final response = await http.get(Uri.parse(apiUrl));
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
 
-    String responseBody = utf8.decode(response.bodyBytes);
-
-    if (response.statusCode == 200) {
-      
-      // ใช้ json.decode เพื่อแปลงข้อมูล JSON ที่ได้จาก response body
-      try {
-        final decodedResponse = json.decode(response.body);
-        // ใช้ decodedResponse ที่ได้ต่อไป
-        print(decodedResponse);
-      } catch (e) {
-        print('Error decoding JSON response: $e');
+      if (response.statusCode == 200) {
+        // ใช้ json.decode เพื่อแปลงข้อมูล JSON ที่ได้จาก response body
+        try {
+          final decodedResponse = json.decode(response.body);
+          // ใช้ decodedResponse ที่ได้ต่อไป
+          print(decodedResponse);
+        } catch (e) {
+          print('Error decoding JSON response: $e');
+        }
+      } else {
+        print('Error: ${response.statusCode}');
       }
-    } else {
-      print('Error: ${response.statusCode}');
+    } catch (e) {
+      print('Error: $e');
     }
-  } catch (e) {
-    print('Error: $e');
   }
-}
-
 
   Future<void> _postData() async {
     MyGlobalData globalData = MyGlobalData();
@@ -139,7 +136,7 @@ Future<void> fetchData() async {
           'http://172.20.10.3:8080/api/v1/admin/get-all-booking';
       final response = await http.get(
         Uri.parse(apiUrl),
-          headers: {
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $myValue',
         },
@@ -147,13 +144,15 @@ Future<void> fetchData() async {
         //   'Authorization': 'Bearer ${MyGlobalData().token}',
         //   'Content-Type': 'multipart/form-data',
         // },
-  
       );
-      
+
       print(response.statusCode);
 
       if (response.statusCode == 200) {
-        List<dynamic> responseData = json.decode(response.body);
+        String responseBody = utf8.decode(response.bodyBytes);
+        List<dynamic> responseData = json.decode(responseBody);
+
+        //List<dynamic> responseData = json.decode(response.body);
 
         if (responseData.isNotEmpty) {
           setState(() {
@@ -162,18 +161,21 @@ Future<void> fetchData() async {
                 responseData[widget.somevii];
 
             booking1 = Booking1(
-            bookingDate:  adminaccept['bookingDate'] ?? "",
-            bookingId:  adminaccept['bookingId'] ?? "",
-            select: adminaccept['select'] ?? "",
-            amount:  adminaccept['amount'] ?? "",
-            payment:  adminaccept['payment'] ?? "",
-            select_payment:  adminaccept['select_payment'] ?? "",
-            price:  adminaccept['price'] ?? "",
-            address:  adminaccept['address'] ?? "",
-            title:  adminaccept['title'] ?? "",
-            file:  adminaccept['file'] ?? "",
-            accountId:  adminaccept['accountId'] ?? "",
-            statee:  adminaccept['statee'] ?? "",);
+              bookingDate: adminaccept['bookingDate'] ?? "",
+              bookingId: adminaccept['bookingId'] ?? "",
+              select: adminaccept['select'] ?? "",
+              amount: adminaccept['amount'] ?? "",
+              payment: adminaccept['payment'] ?? "",
+              select_payment: adminaccept['select_payment'] ?? "",
+              price: adminaccept['price'] ?? "",
+              address: adminaccept['address'] ?? "",
+              title: adminaccept['title'] ?? "",
+              file: adminaccept['file'] ?? "",
+              accountId: adminaccept['accountId'] ?? "",
+              path: adminaccept['path'] ?? "",
+              statee: adminaccept['statee'] ?? "",
+              date: adminaccept['date'] ?? "",
+            );
           });
         } else {
           // กรณี API ส่งข้อมูลที่ไม่ถูกต้อง
@@ -360,7 +362,7 @@ Future<void> fetchData() async {
                         height: 5,
                       ),
                       Text(
-                        booking1.bookingId,
+                        booking1.date,
                         style: TextStyle(color: Colors.grey, fontSize: 18),
                       ),
                       SizedBox(
@@ -450,7 +452,7 @@ Future<void> fetchData() async {
                         height: 5,
                       ),
                       Text(
-                        booking1.select_payment,
+                        booking1.payment,
                         style: TextStyle(color: Colors.grey, fontSize: 18),
                       ),
                       SizedBox(
@@ -468,7 +470,7 @@ Future<void> fetchData() async {
                         height: 5,
                       ),
                       Text(
-                        booking1.payment,
+                        booking1.select_payment,
                         style: TextStyle(color: Colors.grey, fontSize: 18),
                       ),
                       SizedBox(
@@ -480,8 +482,9 @@ Future<void> fetchData() async {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Image.network(
-                                  file,
+                                content: Image(
+                                  image: NetworkImage(
+                                      'http://172.20.10.3:8080/api/v1/upload/image/${booking1.path}'),
                                   fit: BoxFit.contain,
                                 ),
                               );
@@ -514,50 +517,3 @@ Future<void> fetchData() async {
     );
   }
 }
-//             const SizedBox(
-//               height: 20,
-//             ),
-//              Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 ElevatedButton(
-//                   onPressed: () {
-//                     // Add your delete action here
-//                   },
-//                   style: ElevatedButton.styleFrom(
-//                     primary: Colors.red.shade300,
-//                     minimumSize: Size(150, 50),
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(
-//                           10), // Adjust the radius as needed
-//                     ),
-//                   ),
-//                   child:
-//                       const Text("เสร็จสิ้น", style: TextStyle(fontSize: 18)),
-//                 ),
-//                 const SizedBox(width: 20),
-//                 ElevatedButton(
-//                   onPressed: () {
-//                     // Add your cancel action here
-//                   },
-//                   style: ElevatedButton.styleFrom(
-//                     primary: Colors.grey.shade400,
-//                     minimumSize: Size(150, 50),
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(
-//                           10), // Adjust the radius as needed
-//                     ),
-//                   ),
-//                   child: const Text(
-//                     "ยกเลิก",
-//                     style: TextStyle(fontSize: 18),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

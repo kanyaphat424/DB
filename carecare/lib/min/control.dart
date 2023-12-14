@@ -17,7 +17,6 @@ class controlpage extends StatefulWidget {
 }
 
 class _controlpageState extends State<controlpage> {
-
   List<Ffmo> filteredLists = [];
   Ffmo selectedItem = Ffmo(accountId: "", name: "");
 
@@ -27,7 +26,8 @@ class _controlpageState extends State<controlpage> {
     print(myValue);
     print("-----------");
     try {
-      const String apiUrl = 'http://172.20.10.3:8080/api/v1/admin/get-all-member';
+      const String apiUrl =
+          'http://172.20.10.3:8080/api/v1/admin/get-all-member';
       final response = await http.get(
         Uri.parse(apiUrl),
         headers: {
@@ -37,42 +37,44 @@ class _controlpageState extends State<controlpage> {
       );
       print(response.statusCode);
       if (response.statusCode == 200) {
-        print(response.body);
-      List<dynamic> responseData = json.decode(response.body);
+        String responseBody = utf8.decode(response.bodyBytes);
+        List<dynamic> responseData = json.decode(responseBody);
 
-      if (responseData != null && responseData.isNotEmpty) {
-        setState(() {
-          // allData เก็บทั้งหมด
-          allData = responseData
-              .map((data) => Ffmo(
-                    accountId: data['accountId'],
-                    name: data['name'],
-                  ))
-              .toList();
-          // filteredLists กำหนดค่าเริ่มต้นเป็น allData
-          filteredLists = List.from(allData);
-        });
+        //   print(response.body);
+        // List<dynamic> responseData = json.decode(response.body);
+
+        if (responseData != null && responseData.isNotEmpty) {
+          setState(() {
+            // allData เก็บทั้งหมด
+            allData = responseData
+                .map((data) => Ffmo(
+                      accountId: data['accountId'],
+                      name: data['name'],
+                    ))
+                .toList();
+            // filteredLists กำหนดค่าเริ่มต้นเป็น allData
+            filteredLists = List.from(allData);
+          });
+        } else {
+          // กรณี API ส่งข้อมูลที่ไม่ถูกต้อง
+          print("Invalid JSON data");
+        }
       } else {
-        // กรณี API ส่งข้อมูลที่ไม่ถูกต้อง
-        print("Invalid JSON data");
+        print("Error: ${response.statusCode}");
+        print("Error: ${response.body}");
       }
-    } else {
-      print("Error: ${response.statusCode}");
-      print("Error: ${response.body}");
+    } catch (error) {
+      print("Error: $error");
     }
-  } catch (error) {
-    print("Error: $error");
   }
-}
 
-void filterList(String text) {
-  setState(() {
-    filteredLists = allData
-        .where((item) =>
-            item.name.toLowerCase().contains(text.toLowerCase()))
-        .toList();
-  });
-}
+  void filterList(String text) {
+    setState(() {
+      filteredLists = allData
+          .where((item) => item.name.toLowerCase().contains(text.toLowerCase()))
+          .toList();
+    });
+  }
 
   List<Ffmo> allData = [];
 
@@ -107,12 +109,10 @@ void filterList(String text) {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return AdminPage();
-                    }));
-                    
-                  },
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AdminPage();
+            }));
+          },
           icon: const Icon(
             Icons.arrow_circle_left_outlined,
             color: Colors.blue,
@@ -150,52 +150,45 @@ void filterList(String text) {
             child: ListView.builder(
               itemCount: filteredLists.length,
               itemBuilder: (context, int index) {
-                return SizedBox(
-                  width: 40,
-                  height: 70,
-                  child: Card(
-                    margin: EdgeInsets.only(top: 4),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: ListTile(
-                        leading: Text(filteredLists[index].accountId),
-                        title: InkWell(
-                           onTap: () {
-                setState(() {
-                  selectedItemIndex = index;
-                  selectedItem = filteredLists[index];
-                });
-                // Navigate to customerdetail page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => customerdetail(someValue: index),
-                  ),);
-                // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  
-                  
-                //   return customerdetail();
-                // }));
-                // toggleReservationContentVisibility();
-              },
-                          child: Row(
-                            children: [
-                              Icon(Icons.person),
-                              SizedBox(width: 8),
-                              Text(filteredLists[index].name),
-                            ],
-                          ),
+                return Card(
+                  margin: EdgeInsets.only(top: 4),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ListTile(
+                      leading: Text(filteredLists[index].accountId),
+                      title: InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedItemIndex = index;
+                            selectedItem = filteredLists[index];
+                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  customerdetail(someValue: index),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Icon(Icons.person),
+                            SizedBox(width: 8),
+                            Text(filteredLists[index].name),
+                          ],
                         ),
-                        trailing: InkWell(
-                          onTap: () {
-                             Navigator.push(context,
-                        MaterialPageRoute(
-                          builder: (context) => customeraddetails(someValue: index),
-                    ));
-                            // Handle the onTap event here
-                          },
-                          child: Icon(Icons.delete),
-                        ),
+                      ),
+                      trailing: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  customeraddetails(someValue: index),
+                            ),
+                          );
+                        },
+                        child: Icon(Icons.delete),
                       ),
                     ),
                   ),
